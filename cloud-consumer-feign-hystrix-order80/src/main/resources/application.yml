@@ -1,0 +1,38 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-order-hystrix-payment
+
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/,http://127.0.0.1:7002/eureka/
+  instance:
+    instance-id:  hystrix-order80
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000  #设置请求超时时间，默认1秒，超过指定的时间后，触发服务熔断
+
+#OpenFeign的超时控制配置：默认只等待1秒，超时则报错
+#设置Feign客户端超时时间（OpenFeign默认支持Ribbon）
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+  ReadTimeout: 5000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  connectTimeout: 5000
+
+#用于服务降级，在注解@FeignClient中添加fallbackFactory属性值
+feign:
+  hystrix:
+    enabled: true #在Feign中开启Hystrix

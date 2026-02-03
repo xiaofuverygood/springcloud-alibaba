@@ -1,0 +1,21 @@
+package org.example.springcloud.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * @Description TODO
+ * @Author fsy
+ * @Date 2023/3/5 10:51
+ */
+@Configuration
+public class ApplicationContextConfig {
+
+    @Bean
+    @LoadBalanced // 开启负载均衡 (默认轮询算法)
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
+}

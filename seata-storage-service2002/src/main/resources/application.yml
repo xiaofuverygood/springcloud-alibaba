@@ -1,0 +1,38 @@
+server:
+  port: 2002
+
+spring:
+  application:
+    name: seata-storage-service
+  cloud:
+    alibaba:
+      seata:
+        # 自定义事务组名称需要与seata-server中的对应
+        tx-service-group: test_tx_group
+    nacos:
+      discovery:
+        server-addr: localhost:8841
+  datasource:
+    #当前数据源操作类型
+    #type: com.alibaba.druid.pool.DruidDataSource
+    # mysql驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_storage
+    username: root
+    password: 123456
+feign:
+  hystrix:
+    enabled: false
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  type-aliases-package: com.springcloud.alibaba.domain  # 搜索指定包别名
+#  global-config:
+#    db-config:
+#      table-prefix: tb_  #全局的表名前缀。要求 表名前缀 + 实体类名 应该等于 表名称
+#      id-type: auto # 全局的主键生成策略。auto表示数据库主键自增
